@@ -1,3 +1,5 @@
+import { BiBasket } from "react-icons/bi"; 
+import { FcSalesPerformance } from "react-icons/fc"; 
 import {
   LayoutDashboard,
   Users, // untuk pelanggan
@@ -15,6 +17,7 @@ const menuItems = [
   { name: "Dashboard", icon: <LayoutDashboard />, path: "/" },
   { name: "Produk", icon: <Box />, path: "/produk" },
   { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
+  { name: "Penjualan", icon: <BiBasket /> , path: "/Penjualan" },
 ];
 
 const accountItems = [
