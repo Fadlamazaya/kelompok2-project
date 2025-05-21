@@ -1,5 +1,3 @@
-
-import { FcSalesPerformance } from "react-icons/fc"; 
 import {
   LayoutDashboard,
   Users, // untuk pelanggan
