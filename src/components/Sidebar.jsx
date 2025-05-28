@@ -1,4 +1,9 @@
 import { BiBookAdd } from "react-icons/bi";
+import { FaHistory } from "react-icons/fa"; 
+import { CgNotifications } from "react-icons/cg"; 
+import { MdFeedback } from "react-icons/md"; 
+import { BiBasket } from "react-icons/bi"; 
+import { FcSalesPerformance } from "react-icons/fc"; 
 import {
   LayoutDashboard,
   Users, // untuk pelanggan
@@ -21,6 +26,12 @@ const menuItems = [
   { name: "Pendaftaran online", icon: <BiBookAdd />, path: "/pendaftaran" },
   // { name: "Riwayat", icon: <BiBookAdd />, path: "/riwayat" },
   { name: "Riwayat", icon: <BiBookAdd />, path: "/riwayatpages" },
+  { name: "Produk", icon: <Box />, path: "/produk" },
+  { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
+  { name: "Penjualan", icon: <BiBasket /> , path: "/Penjualan" },
+  { name: "Feedback", icon: <MdFeedback /> , path: "/Feedback" },
+  { name: "Reminder", icon: <CgNotifications /> , path: "/Reminder" },
+  { name: "Riwayat", icon: <FaHistory /> , path: "/RiwayatPages" },
 ];
 
 const accountItems = [
