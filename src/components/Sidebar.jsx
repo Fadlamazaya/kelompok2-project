@@ -1,13 +1,15 @@
 import {
   LayoutDashboard,
-  Users, // untuk pelanggan
-  ShoppingCart, // untuk penjualan
-  Box, // untuk produk
-  BarChart2, // untuk laporan
-  Settings, // untuk pengaturan akun
-  User,
+  Users,
+  ShoppingCart,
+  Box,
+  BarChart2,
+  Settings,
   LogIn,
   UserPlus,
+  HeartHandshake,
+  FileBarChart2,
+  HelpCircle,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -15,7 +17,13 @@ const menuItems = [
   { name: "Dashboard", icon: <LayoutDashboard />, path: "/" },
   { name: "Produk", icon: <Box />, path: "/produk" },
   { name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
-  { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
+  { name: "Penjualan", icon: <ShoppingCart />, path: "/penjualan" },
+  { name: "Rekomendasi", icon: <HeartHandshake />, path: "/rekomendasi" },
+  { name: "Laporan & Analisis", icon: <FileBarChart2 />, path: "/laporan" },
+  { name: "FAQ", icon: <HelpCircle />, path: "/faq" },
+
+  // Menu Tambah Data baru
+  { name: "Tambah Data", icon: <UserPlus />, path: "/tambah-data" },
 ];
 
 const accountItems = [
