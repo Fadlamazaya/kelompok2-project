@@ -8,6 +8,7 @@ import PendaftaranOnline from "./pages/Pendaftaran";
 import Riwayat from "./pages/Riwayat";
 import Pendaftaran from "./pages/Pendaftaran";
 import RiwayatPages from "./pages/RiwayatPages";
+import Reminder from "./pages/Reminder";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/pelanggan" element={<CustomerManagement />} />
         <Route path="/pendaftaran" element={<Pendaftaran />} />
         <Route path="/riwayat" element={<Riwayat />} />
+        <Route path="/reminder" element={<Reminder />} />
          <Route path="/riwayatPages" element={<RiwayatPages/>} />
       </Route>
     </Routes>
