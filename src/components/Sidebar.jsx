@@ -1,3 +1,4 @@
+import { BiBookAdd } from "react-icons/bi";
 import {
   LayoutDashboard,
   Users, // untuk pelanggan
@@ -13,10 +14,13 @@ import { Link, useLocation } from "react-router-dom";
 
 const menuItems = [
   { name: "Dashboard", icon: <LayoutDashboard />, path: "/" },
-  { name: "Produk", icon: <Box />, path: "/produk" },
-  { name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
-  { name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
-  { name: "Penjualan", icon: <BarChart2 /> , path: "/Penjualan" },
+  //{ name: "Produk", icon: <Box />, path: "/produk" },
+  //{ name: "Pelanggan", icon: <Users />, path: "/pelanggan" },
+  //{ name: "Laporan", icon: <BarChart2 />, path: "/laporan" },
+  //{ name: "Penjualan", icon: <BarChart2 />, path: "/Penjualan" },
+  { name: "Pendaftaran online", icon: <BiBookAdd />, path: "/pendaftaran" },
+  // { name: "Riwayat", icon: <BiBookAdd />, path: "/riwayat" },
+  { name: "Riwayat", icon: <BiBookAdd />, path: "/riwayatpages" },
 ];
 
 const accountItems = [
