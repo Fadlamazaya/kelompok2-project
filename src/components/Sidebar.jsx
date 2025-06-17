@@ -1,3 +1,4 @@
+import { BsFillSkipStartBtnFill } from "react-icons/bs"; 
 import { BiBookAdd } from "react-icons/bi";
 import { FaHistory } from "react-icons/fa"; 
 import { CgNotifications } from "react-icons/cg"; 
@@ -39,6 +40,8 @@ const menuItems = [
   { name: "Rekomendasi", icon: <HeartHandshake />, path: "/rekomendasi" },
   { name: "Laporan & Analisis", icon: <FileBarChart2 />, path: "/laporan" },
   { name: "FAQ", icon: <HelpCircle />, path: "/faq" },
+  { name: "Konten", icon: <BiBookAdd />, path: "/konten-edukasi" },
+  { name: "Promosi", icon: <BsFillSkipStartBtnFill /> , path: "/filter-hewan" },
 
   // Menu Tambah Data baru
   //{ name: "Tambah Data", icon: <UserPlus />, path: "/tambah-data" },

@@ -15,6 +15,8 @@ import RekomendasiLayanan from "./pages/RekomendasiLayanan";
 import LaporanAnalisis from "./pages/LaporanAnalisis";
 import FaqLayanan from "./pages/FaqLayanan";
 import FormTambahData from "./pages/FormTambahData";
+import EducationContentPage from "./pages/EducationContentPages";
+import Promosi from "./pages/Promosi";
 
 function App() {
   const [faqs, setFaqs] = useState([
@@ -76,6 +78,8 @@ function App() {
           path="/laporan"
           element={<LaporanAnalisis laporanData={laporanData} />}
         />
+        <Route path="/konten-edukasi" element={<EducationContentPage />} />
+        <Route path="/filter-hewan" element={<Promosi />} />
         <Route path="/faq" element={<FaqLayanan faqs={faqs} />} />
         <Route
           path="/tambah-data"
