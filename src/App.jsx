@@ -1,15 +1,15 @@
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
+import MainLayout from "./components/MainLayout";
+
+// Halaman utama dan fitur
+import Dashboard from "./pages/Dashboard";
 import Penjualan from "./pages/Penjualan";
 import Riwayat from "./pages/Riwayat";
 import Pendaftaran from "./pages/Pendaftaran";
 import RiwayatPages from "./pages/RiwayatPages";
 import Reminder from "./pages/Reminder";
-
-import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import MainLayout from "./components/MainLayout";
-
-import Dashboard from "./pages/Dashboard";
 import CustomerManagement from "./pages/CustomerManagement";
 import RekomendasiLayanan from "./pages/RekomendasiLayanan";
 import LaporanAnalisis from "./pages/LaporanAnalisis";
@@ -17,6 +17,9 @@ import FaqLayanan from "./pages/FaqLayanan";
 import FormTambahData from "./pages/FormTambahData";
 import EducationContentPage from "./pages/EducationContentPages";
 import Promosi from "./pages/Promosi";
+
+// Halaman mandiri tanpa sidebar (misalnya untuk pelanggan)
+import Member from "./pages/Member";
 
 function App() {
   const [faqs, setFaqs] = useState([
@@ -61,14 +64,17 @@ function App() {
 
   return (
     <Routes>
+      {/* Halaman luar layout (untuk pelanggan mandiri) */}
+      <Route path="/member" element={<Member />} />
+
+      {/* Halaman utama dengan sidebar & header */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/Penjualan" element={<Penjualan />} />
-        <Route path="/pelanggan" element={<CustomerManagement />} />
-        <Route path="/pendaftaran" element={<Pendaftaran />} />
+        <Route path="/penjualan" element={<Penjualan />} />
         <Route path="/riwayat" element={<Riwayat />} />
+        <Route path="/riwayatPages" element={<RiwayatPages />} />
         <Route path="/reminder" element={<Reminder />} />
-         <Route path="/riwayatPages" element={<RiwayatPages/>} />
+        <Route path="/pendaftaran" element={<Pendaftaran />} />
         <Route path="/pelanggan" element={<CustomerManagement />} />
         <Route
           path="/rekomendasi"
@@ -78,9 +84,9 @@ function App() {
           path="/laporan"
           element={<LaporanAnalisis laporanData={laporanData} />}
         />
+        <Route path="/faq" element={<FaqLayanan faqs={faqs} />} />
         <Route path="/konten-edukasi" element={<EducationContentPage />} />
         <Route path="/filter-hewan" element={<Promosi />} />
-        <Route path="/faq" element={<FaqLayanan faqs={faqs} />} />
         <Route
           path="/tambah-data"
           element={
