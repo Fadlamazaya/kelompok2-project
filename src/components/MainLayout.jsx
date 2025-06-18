@@ -4,16 +4,15 @@ import Header from "./Header";
 
 export default function MainLayout() {
   return (
-    <div id="app-container" className="bg-gray-100 min-h-screen flex w-full">
-      {/* Sidebar kiri, pastikan ukuran tetap */}
-      <div className="w-64">
-        <Sidebar />
-      </div>
+    <div className="flex bg-gray-100 min-h-screen w-full">
+      {/* Sidebar tetap */}
+      <Sidebar />
 
-      {/* Konten utama kanan */}
-      <div id="main-content" className="flex-1 flex flex-col">
+      {/* Main content */}
+      <div className="ml-64 flex-1 flex flex-col">
         <Header />
 
+        {/* Scrollable content */}
         <main className="flex-1 overflow-y-auto">
           <div className="p-4 md:p-6">
             <Outlet />
