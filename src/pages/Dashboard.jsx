@@ -27,36 +27,31 @@ const Dashboard = () => {
   // Data summary cards
   const stats = [
     {
-      label: "Pendapatan Hari Ini",
-      value: "$53,000",
+      label: "Kunjungan Hari Ini",
+      value: "2,300 ",
       percent: "+55%",
       color: "green",
     },
     {
-      label: "Pengguna Hari Ini",
-      value: "2,300",
+      label: "Pendapatan Hari Ini",
+      value: "$53,000",
       percent: "+3%",
       color: "blue",
     },
-    { label: "Klien Baru", value: "+3,462", percent: "-2%", color: "red" },
-    { label: "Penjualan", value: "$103,430", percent: "+5%", color: "purple" },
+    { label: "Pelanggan Baru", value: "+3,462", percent: "-2%", color: "red" },
+    { label: "Layanan Terlaris", value: "Sterilisasi", percent: "+5%", color: "purple" },
   ];
 
   // Data untuk grafik Penjualan Bulanan (Bar Chart)
   const barData = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Agu",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+      "Minggu",
     ],
     datasets: [
       {
@@ -71,25 +66,20 @@ const Dashboard = () => {
     responsive: true,
     plugins: {
       legend: { position: "top" },
-      title: { display: true, text: "Penjualan Bulanan Tahun Ini" },
+      title: { display: true, text: "Laporan Kunjungan Mingguan" },
     },
   };
 
   // Data untuk grafik Pertumbuhan Pelanggan (Line Chart)
   const lineData = {
     labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "Mei",
-      "Jun",
-      "Jul",
-      "Agu",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
+      "Senin",
+      "Selasa",
+      "Rabu",
+      "Kamis",
+      "Jumat",
+      "Sabtu",
+      "Minggu",
     ],
     datasets: [
       {
