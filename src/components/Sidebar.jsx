@@ -1,3 +1,4 @@
+import { BiBarChartAlt2 } from "react-icons/bi"; 
 import { BsFillSkipStartBtnFill } from "react-icons/bs"; 
 import { BiBookAdd } from "react-icons/bi";
 import { FaHistory } from "react-icons/fa"; 
@@ -42,6 +43,7 @@ const menuItems = [
   { name: "FAQ", icon: <HelpCircle />, path: "/faq" },
   { name: "Konten", icon: <BiBookAdd />, path: "/konten-edukasi" },
   { name: "Promosi", icon: <BsFillSkipStartBtnFill /> , path: "/filter-hewan" },
+  { name: "Segmentasi Pelanggan", icon: <BiBarChartAlt2 />, path: "/segmentasi" }
 
   // Menu Tambah Data baru
   //{ name: "Tambah Data", icon: <UserPlus />, path: "/tambah-data" },
