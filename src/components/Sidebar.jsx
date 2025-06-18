@@ -1,3 +1,4 @@
+import { BiBarChartAlt2 } from "react-icons/bi"; 
 import { BsFillSkipStartBtnFill } from "react-icons/bs"; 
 import { BiBookAdd, BiBasket } from "react-icons/bi";
 import { CgNotifications } from "react-icons/cg"; 
@@ -24,7 +25,10 @@ const menuItems = [
   { name: "Laporan & Analisis", icon: <FileBarChart2 />, path: "/laporan" },
   { name: "FAQ", icon: <HelpCircle />, path: "/faq" },
   { name: "Konten", icon: <BiBookAdd />, path: "/konten-edukasi" },
-  { name: "Promosi", icon: <BsFillSkipStartBtnFill />, path: "/filter-hewan" },
+  { name: "Promosi", icon: <BsFillSkipStartBtnFill /> , path: "/filter-hewan" },
+
+  // Menu Tambah Data baru
+  //{ name: "Tambah Data", icon: <UserPlus />, path: "/tambah-data" },
 ];
 
 const accountItems = [

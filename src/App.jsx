@@ -17,6 +17,7 @@ import FaqLayanan from "./pages/FaqLayanan";
 import FormTambahData from "./pages/FormTambahData";
 import EducationContentPage from "./pages/EducationContentPages";
 import Promosi from "./pages/Promosi";
+import CustomerSegmentation from "./pages/CustomerSegmentation"; 
 
 // Halaman mandiri tanpa sidebar (misalnya untuk pelanggan)
 import Member from "./pages/Member";
@@ -100,6 +101,7 @@ function App() {
             />
           }
         />
+         <Route path="/segmentasi" element={<CustomerSegmentation />} />
       </Route>
     </Routes>
   );
