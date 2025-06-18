@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Riwayat from "./Riwayat";
+import { PawPrint, CalendarDays, User, Mail, AlertCircle, Clock, UserPlus } from "lucide-react";
 
-// Data dropdown
-const daftarDokter = ["Drh. Andi", "Drh. Rina", "Drh. Susi"];
+const daftarLayanan = ["Sterilisasi", "Vaksinasi Rabies", "Pemeriksaan", "Pemeriksaan Darah", "Bedah"];
 const daftarJenisHewan = ["Anjing", "Kucing", "Kelinci"];
 const daftarRas = {
   Anjing: ["Golden Retriever", "Pomeranian", "Beagle", "Kintamani"],
@@ -16,7 +16,7 @@ export default function Pendaftaran() {
   const [formData, setFormData] = useState({
     nama: "",
     email: "",
-    dokter: "",
+    pilihLayanan: "",
     jenisHewan: "",
     ras: "",
     tanggal: "",
@@ -33,8 +33,6 @@ export default function Pendaftaran() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Reset ras jika jenis hewan berubah
     if (name === "jenisHewan") {
       setFormData((prev) => ({ ...prev, [name]: value, ras: "" }));
     } else {
@@ -43,7 +41,6 @@ export default function Pendaftaran() {
   };
 
   const handleSubmit = () => {
-    // Cek semua field wajib diisi
     const lengkap = Object.values(formData).every((val) => val !== "");
     if (!lengkap) return alert("Semua field wajib diisi!");
 
@@ -57,7 +54,7 @@ export default function Pendaftaran() {
     setFormData({
       nama: "",
       email: "",
-      dokter: "",
+      pilihLayanan: "",
       jenisHewan: "",
       ras: "",
       tanggal: "",
@@ -66,125 +63,119 @@ export default function Pendaftaran() {
     });
   };
 
-  return (
-    <div className="max-w-3xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Form Pendaftaran Kunjungan</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Input standar */}
-        {[
-          ["Nama", "nama"],
-          ["Email", "email"],
-          ["Tanggal Daftar", "tanggal", "date"],
-        ].map(([label, name, type = "text"]) => (
-          <div key={name}>
-            <label className="block font-medium mb-1">{label}</label>
-            <input
-              type={type}
-              name={name}
-              value={formData[name]}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-400"
-            />
-          </div>
-        ))}
+  const InputField = ({ label, name, type = "text", icon: Icon }) => (
+    <div>
+      <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+        <Icon className="w-4 h-4 text-indigo-500" /> {label}
+      </label>
+      <input
+        type={type}
+        name={name}
+        value={formData[name]}
+        onChange={handleChange}
+        className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+      />
+    </div>
+  );
 
-        {/* Jenis Hewan Dropdown */}
+  return (
+    <div className="max-w-5xl mx-auto p-10 bg-white rounded-3xl shadow-2xl border border-gray-200">
+      <h1 className="text-4xl font-extrabold text-indigo-700 mb-10 text-center flex items-center justify-center gap-3">
+        <UserPlus className="w-8 h-8" /> Formulir Kunjungan Hewan
+      </h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <InputField label="Nama Lengkap" name="nama" icon={User} />
+        <InputField label="Email Aktif" name="email" icon={Mail} />
+        <InputField label="Tanggal Daftar" name="tanggal" type="date" icon={CalendarDays} />
+
         <div>
-          <label className="block font-medium mb-1">Jenis Hewan</label>
+          <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <PawPrint className="w-4 h-4 text-indigo-500" /> Jenis Hewan
+          </label>
           <select
             name="jenisHewan"
             value={formData.jenisHewan}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-400"
+            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
           >
             <option value="">-- Pilih Jenis Hewan --</option>
-            {daftarJenisHewan.map((j, i) => (
-              <option key={i} value={j}>
-                {j}
-              </option>
+            {daftarJenisHewan.map((j) => (
+              <option key={j} value={j}>{j}</option>
             ))}
           </select>
         </div>
 
-        {/* Ras Dropdown */}
         <div>
-          <label className="block font-medium mb-1">Ras</label>
+          <label className="block font-semibold text-gray-700 mb-2">Ras</label>
           <select
             name="ras"
             value={formData.ras}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-400"
             disabled={!formData.jenisHewan}
+            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
           >
             <option value="">-- Pilih Ras --</option>
-            {formData.jenisHewan &&
-              daftarRas[formData.jenisHewan].map((r, i) => (
-                <option key={i} value={r}>
-                  {r}
-                </option>
-              ))}
-          </select>
-        </div>
-
-        {/* Dokter Dropdown */}
-        <div>
-          <label className="block font-medium mb-1">Pilih Dokter</label>
-          <select
-            name="dokter"
-            value={formData.dokter}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-400"
-          >
-            <option value="">-- Pilih Dokter --</option>
-            {daftarDokter.map((d, i) => (
-              <option key={i} value={d}>
-                {d}
-              </option>
+            {formData.jenisHewan && daftarRas[formData.jenisHewan].map((r) => (
+              <option key={r} value={r}>{r}</option>
             ))}
           </select>
         </div>
 
-        {/* Jam Jadwal */}
         <div>
-          <label className="block font-medium mb-1">Pilih Jam</label>
+          <label className="block font-semibold text-gray-700 mb-2">Pilih Layanan</label>
+          <select
+            name="pilihLayanan"
+            value={formData.pilihLayanan}
+            onChange={handleChange}
+            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
+          >
+            <option value="">-- Pilih Layanan --</option>
+            {daftarLayanan.map((d) => (
+              <option key={d} value={d}>{d}</option>
+            ))}
+          </select>
+        </div>
+
+        <div>
+          <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <Clock className="w-4 h-4 text-indigo-500" /> Pilih Jam
+          </label>
           <select
             name="jadwal"
             value={formData.jadwal}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-400"
+            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
           >
             <option value="">-- Pilih Jam --</option>
-            {daftarJam.map((jam, i) => (
-              <option key={i} value={jam}>
-                {jam}
-              </option>
+            {daftarJam.map((jam) => (
+              <option key={jam} value={jam}>{jam}</option>
             ))}
           </select>
         </div>
 
-        {/* Keluhan */}
         <div className="md:col-span-2">
-          <label className="block font-medium mb-1">Keluhan</label>
+          <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 text-indigo-500" /> Keluhan
+          </label>
           <textarea
             name="keluhan"
             value={formData.keluhan}
             onChange={handleChange}
             rows={3}
-            className="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-indigo-400"
+            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
           />
         </div>
       </div>
 
-      {/* Tombol Submit */}
       <button
         onClick={handleSubmit}
-        className="mt-4 px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+        className="mt-8 w-full md:w-auto px-10 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white font-bold text-lg rounded-xl hover:scale-105 transition-transform shadow-md"
       >
-        Daftar
+        Daftar Sekarang
       </button>
 
-      {/* Riwayat */}
-      <div className="mt-10">
+      <div className="mt-16">
         <Riwayat data={riwayatKunjungan} />
       </div>
     </div>
