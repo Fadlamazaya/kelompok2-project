@@ -1,82 +1,98 @@
 import React, { useState, useEffect } from "react";
-import Riwayat from "./Riwayat";
-import { PawPrint, CalendarDays, User, Mail, AlertCircle, Clock, UserPlus } from "lucide-react";
+import {
+  PawPrint,
+  CalendarDays,
+  User,
+  Mail,
+  AlertCircle,
+  Clock,
+  UserPlus,
+} from "lucide-react";
 
 const daftarLayanan = ["Sterilisasi", "Vaksinasi Rabies", "Pemeriksaan", "Pemeriksaan Darah", "Bedah"];
-const daftarJenisHewan = ["Anjing", "Kucing", "Kelinci"];
-const daftarRas = {
-  Anjing: ["Golden Retriever", "Pomeranian", "Beagle", "Kintamani"],
-  Kucing: ["Persia", "Anggora", "Kampung", "Bengal"],
-  Kelinci: ["Lop", "Anggora", "Netherland Dwarf"]
-};
-const daftarJam = ["08:00 - 10:00", "10:00 - 12:00", "13:00 - 15:00", "15:00 - 17:00"];
+const daftarJenisHewan = ["Anjing", "Kucing", "Unggas", "Kambing/Domba", "Sapi/Kerbau", "Kuda", "Hewan Lainnya"];
+
+
 
 export default function Pendaftaran() {
-  const [riwayatKunjungan, setRiwayatKunjungan] = useState([]);
+
   const [formData, setFormData] = useState({
     nama: "",
     email: "",
     pilihLayanan: "",
     jenisHewan: "",
-    ras: "",
+   
     tanggal: "",
     jadwal: "",
     keluhan: "",
   });
 
-  useEffect(() => {
-    const data = localStorage.getItem("riwayatKunjungan");
-    if (data) {
-      setRiwayatKunjungan(JSON.parse(data));
-    }
-  }, []);
+  const [opsiJam, setOpsiJam] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "jenisHewan") {
-      setFormData((prev) => ({ ...prev, [name]: value, ras: "" }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+
+    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    
+
+    if (name === "tanggal") {
+      const selectedDate = new Date(value);
+      const day = selectedDate.getDay(); // 0 = Minggu, 1 = Senin, ..., 6 = Sabtu
+      let jam = [];
+
+      switch (day) {
+        case 1: // Senin
+        case 2: // Selasa
+        case 3: // Rabu
+          jam = ["08:00 - 12:00", "13:00 - 15:30"];
+          break;
+        case 4: // Kamis
+          jam = ["08:00 - 12:00", "13:00 - 16:00"];
+          break;
+        case 5: // Jumat
+          jam = ["08:00 - 12:00", "13:30 - 16:00"];
+          break;
+        default:
+          jam = []; // Tidak tersedia di Sabtu & Minggu
+      }
+      setOpsiJam(jam);
     }
   };
 
   const handleSubmit = () => {
-    const lengkap = Object.values(formData).every((val) => val !== "");
-    if (!lengkap) return alert("Semua field wajib diisi!");
+  const lengkap = Object.values(formData).every((val) => val !== "");
+  if (!lengkap) return alert("Semua field wajib diisi!");
 
-    const dataSebelumnya = JSON.parse(localStorage.getItem("riwayatKunjungan")) || [];
-    const dataBaru = [...dataSebelumnya, formData];
+  const dataSebelumnya = JSON.parse(localStorage.getItem("riwayatKunjungan")) || [];
 
-    localStorage.setItem("riwayatKunjungan", JSON.stringify(dataBaru));
-    setRiwayatKunjungan(dataBaru);
-    alert("Pendaftaran berhasil!");
+  // Hitung antrian berdasarkan tanggal yang sama
+  const jumlahHariIni = dataSebelumnya.filter(
+    (item) => item.tanggal === formData.tanggal
+  ).length;
 
-    setFormData({
-      nama: "",
-      email: "",
-      pilihLayanan: "",
-      jenisHewan: "",
-      ras: "",
-      tanggal: "",
-      jadwal: "",
-      keluhan: "",
-    });
-  };
+  const nomorAntrian = jumlahHariIni + 1;
 
-  const InputField = ({ label, name, type = "text", icon: Icon }) => (
-    <div>
-      <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
-        <Icon className="w-4 h-4 text-indigo-500" /> {label}
-      </label>
-      <input
-        type={type}
-        name={name}
-        value={formData[name]}
-        onChange={handleChange}
-        className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-      />
-    </div>
-  );
+  const dataBaru = [...dataSebelumnya, formData];
+
+  localStorage.setItem("riwayatKunjungan", JSON.stringify(dataBaru));
+
+  // Tampilkan popup antrian
+  alert(`Pendaftaran berhasil!\nNomor Antrian Anda: ${nomorAntrian}`);
+
+  // Reset
+  setFormData({
+    nama: "",
+    email: "",
+    pilihLayanan: "",
+    jenisHewan: "",
+    
+    tanggal: "",
+    jadwal: "",
+    keluhan: "",
+  });
+  setOpsiJam([]);
+};
 
   return (
     <div className="max-w-5xl mx-auto p-10 bg-white rounded-3xl shadow-2xl border border-gray-200">
@@ -85,9 +101,30 @@ export default function Pendaftaran() {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <InputField label="Nama Lengkap" name="nama" icon={User} />
-        <InputField label="Email Aktif" name="email" icon={Mail} />
-        <InputField label="Tanggal Daftar" name="tanggal" type="date" icon={CalendarDays} />
+        <InputField
+          label="Nama Lengkap"
+          name="nama"
+          type="text"
+          icon={User}
+          value={formData.nama}
+          onChange={handleChange}
+        />
+        <InputField
+          label="Email Aktif"
+          name="email"
+          type="email"
+          icon={Mail}
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <InputField
+          label="Tanggal Daftar"
+          name="tanggal"
+          type="date"
+          icon={CalendarDays}
+          value={formData.tanggal}
+          onChange={handleChange}
+        />
 
         <div>
           <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
@@ -106,21 +143,7 @@ export default function Pendaftaran() {
           </select>
         </div>
 
-        <div>
-          <label className="block font-semibold text-gray-700 mb-2">Ras</label>
-          <select
-            name="ras"
-            value={formData.ras}
-            onChange={handleChange}
-            disabled={!formData.jenisHewan}
-            className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
-          >
-            <option value="">-- Pilih Ras --</option>
-            {formData.jenisHewan && daftarRas[formData.jenisHewan].map((r) => (
-              <option key={r} value={r}>{r}</option>
-            ))}
-          </select>
-        </div>
+        
 
         <div>
           <label className="block font-semibold text-gray-700 mb-2">Pilih Layanan</label>
@@ -146,9 +169,10 @@ export default function Pendaftaran() {
             value={formData.jadwal}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400"
+            disabled={opsiJam.length === 0}
           >
             <option value="">-- Pilih Jam --</option>
-            {daftarJam.map((jam) => (
+            {opsiJam.map((jam) => (
               <option key={jam} value={jam}>{jam}</option>
             ))}
           </select>
@@ -175,9 +199,22 @@ export default function Pendaftaran() {
         Daftar Sekarang
       </button>
 
-      <div className="mt-16">
-        <Riwayat data={riwayatKunjungan} />
-      </div>
+
     </div>
   );
 }
+
+const InputField = ({ label, name, type = "text", icon: Icon, value, onChange }) => (
+  <div>
+    <label className="block font-semibold text-gray-700 mb-2 flex items-center gap-2">
+      <Icon className="w-4 h-4 text-indigo-500" /> {label}
+    </label>
+    <input
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-400 focus:outline-none"
+    />
+  </div>
+);
