@@ -4,65 +4,73 @@ import { HeartPulse } from "lucide-react";
 
 export default function UserHome() {
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      {/* Hero Section */}
-      <div className="bg-pink-100 rounded-xl p-6 mb-4 text-center shadow-md">
-        <h2 className="text-3xl font-bold text-pink-700">
-          Selamat Datang di Klinik Hewan UPT LVKH
-        </h2>
-        <p className="text-gray-700 mt-2">
-          Solusi layanan kesehatan untuk hewan peliharaanmu. Cepat, mudah, dan terpercaya.
-        </p>
-      </div>
+    <div>
+      <div className="p-6 bg-gray-50 min-h-screen">
+        {/* Hero Section */}
+        <div className="bg-purple-100 rounded-xl p-6 mb-4 text-center shadow-md">
+          <h2 className="text-3xl font-bold text-purple-700">
+            Selamat Datang di Klinik Hewan UPT LVKH
+          </h2>
+          <p className="text-gray-700 mt-2">
+            Solusi layanan kesehatan untuk hewan peliharaanmu. Cepat, mudah, dan terpercaya.
+          </p>
+        </div>
 
-      {/* Tombol Member di bawah hero, kanan */}
-      <div className="flex justify-end mb-10">
-        <Link
-          to="/member"
-          className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full text-sm transition"
-        >
-          Member
-        </Link>
-      </div>
+        {/* Slider */}
+        <ImageSlider />
 
-      {/* Menu Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <CardMenu
-          title="Pendaftaran"
-          desc="Daftarkan hewan peliharaan untuk pemeriksaan"
-          link="/user/pendaftaran"
-        />
-        <CardMenu
-          title="Riwayat"
-          desc="Lihat catatan medis dan layanan sebelumnya"
-          link="/user/riwayat"
-        />
-        <CardMenu
-          title="Profil"
-          desc="Lihat point kamu di sini"
-          link="/user/reminder"
-        />
+        {/* Rekomendasi Layanan */}
+        <RekomendasiLayanan />
       </div>
-
-      {/* Rekomendasi Layanan */}
-      <RekomendasiLayanan />
     </div>
   );
 }
 
-// Komponen Kartu Menu
-function CardMenu({ title, desc, link }) {
+// Komponen Slider (letakkan di luar fungsi lain)
+function ImageSlider() {
+  const images = [
+    "/images/1.png",
+    "/images/2.png",
+    "/images/3.png",
+    "/images/4.png",
+  ];
+
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <Link to={link}>
-      <div className="bg-white hover:bg-pink-50 transition-all p-5 rounded-xl shadow hover:shadow-lg h-full">
-        <h3 className="text-xl font-semibold text-pink-600 mb-1">{title}</h3>
-        <p className="text-gray-600">{desc}</p>
+    <div className="relative max-w-2xl mx-auto overflow-hidden rounded-xl shadow mb-6">
+      <img
+        src={images[currentIndex]}
+        alt={`slide-${currentIndex}`}
+        className="w-full h-auto object-contain"
+      />
+
+      {/* Bullet Indicator */}
+      <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-2">
+        {images.map((_, i) => (
+          <div
+            key={i}
+            className={`w-3 h-3 rounded-full ${
+              i === currentIndex ? "bg-purple-600" : "bg-gray-300"
+            }`}
+          />
+        ))}
       </div>
-    </Link>
+    </div>
   );
 }
 
-// Komponen Rekomendasi Layanan
+
+
+// Komponen Rekomendasi
 function RekomendasiLayanan() {
   const rekomendasi = [
     {

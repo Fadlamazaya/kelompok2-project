@@ -23,6 +23,7 @@ import CustomerSegmentation from "./pages/CustomerSegmentation";
 // Halaman User
 import Member from "./pages/Member";
 import UserHome from "./pages/user/UserHome";
+import UserProfile from "./pages/user/UserProfil";
 
 function App() {
   const [faqs, setFaqs] = useState([
@@ -83,6 +84,8 @@ function App() {
   <Route path="/user/faq" element={<FaqLayanan faqs={faqs} />} />
   <Route path="/user/konten" element={<EducationContentPage />} />
   <Route path="/user/promosi" element={<Promosi />} />
+  <Route path="/user/profil" element={<UserProfile />} />
+  <Route path="/user/home" element={<UserHome />} />
 </Route>
 
 

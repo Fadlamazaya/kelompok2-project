@@ -6,7 +6,6 @@ const BottomNavbar = () => {
   const location = useLocation();
 
   const menu = [
-    { path: "/user/pendaftaran", label: "Daftar", icon: <BiBookAdd size={22} /> },
     { path: "/user/riwayat", label: "Riwayat", icon: <BiHistory size={22} /> },
     { path: "/user/reminder", label: "Reminder", icon: <BiBell size={22} /> },
     { path: "/user/rekomendasi", label: "Rekomendasi", icon: <BiHeart size={22} /> },
