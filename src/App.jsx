@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 import UserLayout from "./layouts/UserLayout";
@@ -24,6 +24,8 @@ import CustomerSegmentation from "./pages/CustomerSegmentation";
 import Member from "./pages/Member";
 import UserHome from "./pages/user/UserHome";
 import UserProfile from "./pages/user/UserProfil";
+import Login from "./pages/Login";
+import Admin from "./pages/user/AdminHome";
 
 function App() {
   const [faqs, setFaqs] = useState([
@@ -67,31 +69,12 @@ function App() {
     <Routes>
       {/* Halaman tanpa layout */}
       <Route path="/member" element={<Member />} />
+      <Route path="/user/login" element={<Login />} />
 
-      {/* Layout untuk User */}
-<Route element={<UserLayout />}>
-  <Route
-    path="/user"
-    element={
-      <UserHome faqs={faqs} rekomendasi={rekomendasi} />
-    }
-  />
-  {/* Opsional: Tetap bisa akses per halaman */}
-  <Route path="/user/pendaftaran" element={<Pendaftaran />} />
-  <Route path="/user/riwayat" element={<RiwayatPages />} />
-  <Route path="/user/reminder" element={<Reminder />} />
-  <Route path="/user/rekomendasi" element={<RekomendasiLayanan rekomendasi={rekomendasi} />} />
-  <Route path="/user/faq" element={<FaqLayanan faqs={faqs} />} />
-  <Route path="/user/konten" element={<EducationContentPage />} />
-  <Route path="/user/promosi" element={<Promosi />} />
-  <Route path="/user/profil" element={<UserProfile />} />
-  <Route path="/user/home" element={<UserHome />} />
-</Route>
-
-
-      {/* Layout untuk Admin */}
+      {/* Halaman Admin */}
       <Route element={<MainLayout />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/penjualan" element={<Penjualan />} />
         <Route path="/riwayat" element={<Riwayat />} />
         <Route path="/riwayatPages" element={<RiwayatPages />} />
@@ -118,6 +101,23 @@ function App() {
         />
         <Route path="/segmentasi" element={<CustomerSegmentation />} />
       </Route>
+
+      {/* Halaman User */}
+      <Route element={<UserLayout />}>
+        <Route path="/user" element={<UserHome faqs={faqs} rekomendasi={rekomendasi} />} />
+        <Route path="/user/home" element={<UserHome faqs={faqs} rekomendasi={rekomendasi} />} />
+        <Route path="/user/pendaftaran" element={<Pendaftaran />} />
+        <Route path="/user/riwayat" element={<RiwayatPages />} />
+        <Route path="/user/reminder" element={<Reminder />} />
+        <Route path="/user/rekomendasi" element={<RekomendasiLayanan rekomendasi={rekomendasi} />} />
+        <Route path="/user/faq" element={<FaqLayanan faqs={faqs} />} />
+        <Route path="/user/konten" element={<EducationContentPage />} />
+        <Route path="/user/promosi" element={<Promosi />} />
+        <Route path="/user/profil" element={<UserProfile />} />
+      </Route>
+
+      {/* Redirect root path ke /user */}
+      <Route path="/" element={<Navigate to="/user" replace />} />
     </Routes>
   );
 }
