@@ -25,10 +25,26 @@ export default function Member() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Data Member:", formData);
+
+    // Validasi sederhana
+    if (formData.password !== formData.konfirmasiPassword) {
+      alert("Password dan konfirmasi tidak cocok!");
+      return;
+    }
+
+    // Ambil data lama (jika ada) lalu tambahkan yang baru
+    const existingData = JSON.parse(localStorage.getItem("dataMember")) || [];
+    const updatedData = [...existingData, formData];
+
+    // Simpan ke localStorage
+    localStorage.setItem("dataMember", JSON.stringify(updatedData));
+
     alert("Pendaftaran berhasil!");
-    navigate("/"); // Kembali ke dashboard
+
+    // Arahkan kembali ke halaman utama atau lain
+    navigate("/");
   };
+
 
   const inputStyle =
     "w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 transition";

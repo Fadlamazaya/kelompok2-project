@@ -8,7 +8,7 @@ import UserLayout from "./layouts/UserLayout";
 import Dashboard from "./pages/Dashboard";
 import Penjualan from "./pages/Penjualan";
 import Riwayat from "./pages/Riwayat";
-import RiwayatPages from "./pages/RiwayatPages";
+import RiwayatAdmin from "./pages/RiwayatAdmin";
 import Reminder from "./pages/Reminder";
 import Pendaftaran from "./pages/Pendaftaran";
 import CustomerManagement from "./pages/CustomerManagement";
@@ -26,6 +26,8 @@ import UserHome from "./pages/user/UserHome";
 import UserProfile from "./pages/user/UserProfil";
 import Login from "./pages/Login";
 import Admin from "./pages/user/AdminHome";
+import RiwayatPelanggan from "./pages/RiwayatPelanggan";
+import RiwayatPages from "./pages/RiwayatPages";
 
 function App() {
   const [faqs, setFaqs] = useState([
@@ -76,8 +78,8 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/penjualan" element={<Penjualan />} />
-        <Route path="/riwayat" element={<Riwayat />} />
-        <Route path="/riwayatPages" element={<RiwayatPages />} />
+        <Route path="/riwayat" element={<RiwayatPages />} />
+        <Route path="/riwayatAdmin" element={<RiwayatAdmin />} />
         <Route path="/reminder" element={<Reminder />} />
         <Route path="/pendaftaran" element={<Pendaftaran />} />
         <Route path="/pelanggan" element={<CustomerManagement />} />
@@ -108,6 +110,7 @@ function App() {
         <Route path="/user/home" element={<UserHome faqs={faqs} rekomendasi={rekomendasi} />} />
         <Route path="/user/pendaftaran" element={<Pendaftaran />} />
         <Route path="/user/riwayat" element={<RiwayatPages />} />
+        <Route path="/user/riwayatPelanggan" element={<RiwayatPelanggan />} />
         <Route path="/user/reminder" element={<Reminder />} />
         <Route path="/user/rekomendasi" element={<RekomendasiLayanan rekomendasi={rekomendasi} />} />
         <Route path="/user/faq" element={<FaqLayanan faqs={faqs} />} />
