@@ -1,28 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const dummyCustomers = [
   { id: 1, name: "Budi Santoso" },
   { id: 2, name: "Siti Aminah" },
   { id: 3, name: "Andi Wijaya" },
-];
-
-const initialSales = [
-  {
-    id: 1,
-    invoice: "INV-001",
-    customerId: 1,
-    date: "2025-05-10",
-    total: 1500000,
-    status: "Lunas",
-  },
-  {
-    id: 2,
-    invoice: "INV-002",
-    customerId: 2,
-    date: "2025-05-11",
-    total: 250000,
-    status: "Belum Lunas",
-  },
 ];
 
 function formatCurrency(num) {
@@ -33,7 +14,7 @@ function formatCurrency(num) {
 }
 
 export default function Penjualan() {
-  const [sales, setSales] = useState(initialSales);
+  const [sales, setSales] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     invoice: "",
@@ -42,6 +23,17 @@ export default function Penjualan() {
     total: "",
     status: "Belum Lunas",
   });
+
+  // Load data dari localStorage saat komponen pertama kali dirender
+  useEffect(() => {
+    const dataTersimpan = JSON.parse(localStorage.getItem("dataPenjualan")) || [];
+    setSales(dataTersimpan);
+  }, []);
+
+  // Simpan data ke localStorage setiap kali sales diperbarui
+  useEffect(() => {
+    localStorage.setItem("dataPenjualan", JSON.stringify(sales));
+  }, [sales]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +54,7 @@ export default function Penjualan() {
       return;
     }
     const newSale = {
-      id: sales.length + 1,
+      id: Date.now(),
       invoice: formData.invoice,
       customerId: Number(formData.customerId),
       date: formData.date,
@@ -82,7 +74,8 @@ export default function Penjualan() {
 
   const handleDelete = (id) => {
     if (window.confirm("Yakin ingin menghapus penjualan ini?")) {
-      setSales(sales.filter((s) => s.id !== id));
+      const updatedSales = sales.filter((s) => s.id !== id);
+      setSales(updatedSales);
     }
   };
 
@@ -259,5 +252,3 @@ export default function Penjualan() {
     </div>
   );
 }
-
-

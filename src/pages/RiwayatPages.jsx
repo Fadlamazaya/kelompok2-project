@@ -1,21 +1,35 @@
-// src/pages/RiwayatPages.js
-import React, { useEffect, useState } from "react";
-import Riwayat from "./Riwayat";
+import React, { useState, useEffect } from 'react';
+import Riwayat from './Riwayat';
 
 export default function RiwayatPages() {
-  const [data, setData] = useState([]);
+  const [riwayatData, setRiwayatData] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const riwayat = localStorage.getItem("riwayatKunjungan");
-    if (riwayat) {
-      setData(JSON.parse(riwayat));
+    const semuaData = JSON.parse(localStorage.getItem("riwayatKunjungan")) || [];
+    const userLogin = JSON.parse(localStorage.getItem("userLogin")); // Ambil user login
+
+    if (userLogin?.role === "admin") {
+      setRiwayatData(semuaData); // Admin melihat semua data
+      setIsAdmin(true);
+    } else if (userLogin?.role === "user") {
+      const dataUser = semuaData.filter(item => item.email === userLogin.email);
+      setRiwayatData(dataUser); // User hanya melihat miliknya
+      setIsAdmin(false);
     }
   }, []);
 
+  const handleDataUpdate = (dataBaru) => {
+    setRiwayatData(dataBaru);
+  };
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      
-      <Riwayat data={data} />
+    <div>
+      <Riwayat 
+        data={riwayatData}
+        onDataUpdate={handleDataUpdate}
+        isAdmin={isAdmin}
+      />
     </div>
   );
 }
