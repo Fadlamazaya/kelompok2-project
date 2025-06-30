@@ -20,12 +20,14 @@ import EducationContentPage from "./pages/EducationContentPages";
 import Promosi from "./pages/Promosi";
 import CustomerSegmentation from "./pages/CustomerSegmentation";
 
+
 // Halaman User
 import Member from "./pages/Member";
 import UserHome from "./pages/user/UserHome";
 import UserProfile from "./pages/user/UserProfil";
 import Login from "./pages/Login";
 import Admin from "./pages/user/AdminHome";
+import DetailLayanan from "./pages/DetailLayanan";
 
 function App() {
   const [faqs, setFaqs] = useState([
@@ -114,10 +116,11 @@ function App() {
         <Route path="/user/konten" element={<EducationContentPage />} />
         <Route path="/user/promosi" element={<Promosi />} />
         <Route path="/user/profil" element={<UserProfile />} />
+        <Route path="/layanan/:slug" element={<DetailLayanan />} />
       </Route>
 
       {/* Redirect root path ke /user */}
-      <Route path="/" element={<Navigate to="/user" replace />} />
+      <Route path="/" element={<Navigate to="/user/home" replace />} />
     </Routes>
   );
 }
