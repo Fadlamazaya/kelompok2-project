@@ -1,15 +1,73 @@
-import React from "react";
-import { Trash2 } from "lucide-react";
+import React, { useMemo } from "react";
+import { Trash2, UserCheck } from "lucide-react";
 
-export default function Riwayat({ data = [], onDataUpdate, isAdmin = false }) {
-  const dataDenganAntrian = data.map((item, index, arr) => {
-    const tanggalYangSama = arr.filter((d) => d.tanggal === item.tanggal);
-    const nomorAntrian = tanggalYangSama.findIndex((d) => d === item) + 1;
-    return { ...item, nomorAntrian, originalIndex: index };
-  });
+// --- KONFIGURASI PENJADWALAN ---
+
+// 1. Prioritas Layanan (Angka lebih kecil = prioritas lebih tinggi)
+const PRIORITAS_LAYANAN = {
+  "Operasi Darurat": 1,
+  "Operasi Terjadwal": 2,
+  "Perawatan Intensif": 3,
+  "Vaksinasi": 4,
+  "Konsultasi": 5,
+  "Grooming": 6,
+};
+
+// 2. Jadwal & Dokter yang Bertugas
+const JADWAL_DOKTER = {
+  "Pagi (08:00 - 12:00)": {
+    dokter: "Dr. Annisa",
+    urutan: 1, // Urutan sesi pagi
+  },
+  "Siang (13:00 - 16:00)": {
+    dokter: "Dr. Budi",
+    urutan: 2, // Urutan sesi siang
+  },
+};
+
+// --- Komponen Utama ---
+
+export default function Penjadwalan({ data = [], onDataUpdate, isAdmin = false }) {
+  
+  // Memoization untuk mengurutkan jadwal secara efisien
+  const jadwalTerurut = useMemo(() => {
+    const dataDenganIndeks = data.map((item, index) => ({ ...item, originalIndex: index }));
+
+    // Logika pengurutan jadwal
+    dataDenganIndeks.sort((a, b) => {
+      // Prioritas 1: Urutkan berdasarkan Tanggal
+      if (a.tanggal < b.tanggal) return -1;
+      if (a.tanggal > b.tanggal) return 1;
+
+      // Prioritas 2: Urutkan berdasarkan Sesi Jadwal (Pagi dulu, baru Siang)
+      const sesiA = JADWAL_DOKTER[a.jadwal]?.urutan || 99;
+      const sesiB = JADWAL_DOKTER[b.jadwal]?.urutan || 99;
+      if (sesiA !== sesiB) return sesiA - sesiB;
+
+      // Prioritas 3: Urutkan berdasarkan Prioritas Layanan
+      const prioritasA = PRIORITAS_LAYANAN[a.pilihLayanan] || 99;
+      const prioritasB = PRIORITAS_LAYANAN[b.pilihLayanan] || 99;
+      if (prioritasA !== prioritasB) return prioritasA - prioritasB;
+
+      // Jika semua sama, pertahankan urutan asli
+      return a.originalIndex - b.originalIndex;
+    });
+    
+    // Tambahkan nomor antrian dan nama dokter setelah diurutkan
+    const antrianHarian = {};
+    return dataDenganIndeks.map(item => {
+      if (!antrianHarian[item.tanggal]) {
+        antrianHarian[item.tanggal] = 1;
+      }
+      const nomorAntrian = antrianHarian[item.tanggal]++;
+      const namaDokter = JADWAL_DOKTER[item.jadwal]?.dokter || "N/A";
+      return { ...item, nomorAntrian, namaDokter };
+    });
+
+  }, [data]);
 
   const handleDelete = (itemToDelete) => {
-    if (!window.confirm(`Hapus riwayat untuk ${itemToDelete.nama}?`)) return;
+    if (!window.confirm(`Hapus jadwal untuk ${itemToDelete.nama}?`)) return;
 
     const dataTersimpan = JSON.parse(localStorage.getItem("riwayatKunjungan")) || [];
     const dataBaru = dataTersimpan.filter(
@@ -22,12 +80,12 @@ export default function Riwayat({ data = [], onDataUpdate, isAdmin = false }) {
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Riwayat Kunjungan</h1>
-        <p className="text-gray-600 mb-8">Daftar semua pasien hewan yang telah terdaftar.</p>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">Jadwal Kunjungan Pasien</h1>
+        <p className="text-gray-600 mb-8">Jadwal pasien telah diurutkan berdasarkan prioritas layanan dan sesi dokter.</p>
 
-        {dataDenganAntrian.length === 0 ? (
+        {jadwalTerurut.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-xl shadow-md">
-            <p className="text-gray-500 text-lg">Belum ada kunjungan yang tercatat.</p>
+            <p className="text-gray-500 text-lg">Belum ada jadwal yang terdaftar.</p>
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
@@ -39,12 +97,12 @@ export default function Riwayat({ data = [], onDataUpdate, isAdmin = false }) {
                     <Th>Nama Pasien</Th>
                     <Th>Layanan</Th>
                     <Th>Jadwal</Th>
-                    <Th>Keluhan</Th>
+                    <Th>Dokter Bertugas</Th>
                     {isAdmin && <Th>Aksi</Th>}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {dataDenganAntrian.map((item) => (
+                  {jadwalTerurut.map((item) => (
                     <tr key={item.originalIndex} className="hover:bg-gray-50">
                       <Td className="text-center">
                         <span className="font-bold text-lg text-purple-700">{item.nomorAntrian}</span>
@@ -69,7 +127,10 @@ export default function Riwayat({ data = [], onDataUpdate, isAdmin = false }) {
                         <div className="text-gray-500">{item.jadwal}</div>
                       </Td>
                       <Td>
-                        <p className="max-w-xs whitespace-pre-wrap">{item.keluhan}</p>
+                        <div className="flex items-center gap-2">
+                           <UserCheck className="w-4 h-4 text-green-600" />
+                           <span className="font-semibold text-gray-800">{item.namaDokter}</span>
+                        </div>
                       </Td>
                       {isAdmin && (
                         <Td>
@@ -93,6 +154,7 @@ export default function Riwayat({ data = [], onDataUpdate, isAdmin = false }) {
   );
 }
 
+// Helper komponen untuk Table Header dan Table Data
 const Th = ({ children, className = "" }) => (
   <th className={`p-4 text-left font-semibold text-gray-600 uppercase tracking-wider ${className}`}>
     {children}
