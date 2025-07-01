@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
 const initialCustomers = [
-  { id: 1, name: "Budi Santoso", email: "budi@mail.com", phone: "081234567890", membership: "Gold" },
-  { id: 2, name: "Siti Aminah", email: "siti@mail.com", phone: "089876543210", membership: "Silver" },
+  { id: 1, name: "Budi Santoso", email: "budi@mail.com", phone: "081234567890", membership: "Silver" },
+  { id: 2, name: "Siti Aminah", email: "siti@mail.com", phone: "089876543210", membership: "Gold" },
   { id: 3, name: "Andi Wijaya", email: "andi@mail.com", phone: "081299988877", membership: "Platinum" },
 ];
 

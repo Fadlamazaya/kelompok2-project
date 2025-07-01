@@ -46,6 +46,7 @@ function UserNavbar() {
     { name: "Pendaftaran", path: "/user/pendaftaran" },
     { name: "Riwayat", path: "/user/riwayat" },
     { name: "Profil", path: "/user/profil" },
+    { name: "FAQ", path: "/user/faq" },
     { name: "Login", path: "/user/login" },
   ];
 

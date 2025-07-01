@@ -64,13 +64,7 @@ const Header = () => {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-purple-500" />
         </div>
 
-        {/* Tombol Member dengan Gradien */}
-        <Link
-          to="/member"
-          className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-sm transition-transform hover:scale-105"
-        >
-          Member
-        </Link>
+    
 
         {/* Dropdown Pengguna */}
         <div className="relative" ref={dropdownRef}>
