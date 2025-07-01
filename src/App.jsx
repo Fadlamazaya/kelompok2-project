@@ -4,6 +4,12 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import UserLayout from "./layouts/UserLayout";
 
+// Halaman Edukasi Tambahan
+import PentingnyaVaksinasi from "./pages/edukasi/PentingnyaVaksinasi";
+import TipsPerawatan from "./pages/edukasi/TipsPerawatan";
+import MengenalSterilisasi from "./pages/edukasi/MengenalSterilisasi";
+
+
 
 // Halaman Admin
 import Dashboard from "./pages/Dashboard";
@@ -121,7 +127,13 @@ function App() {
         <Route path="/user/promosi" element={<Promosi />} />
         <Route path="/user/profil" element={<UserProfile />} />
         <Route path="/layanan/:slug" element={<DetailLayanan />} />
+
+        {/* Tambahkan routing edukasi */}
+        <Route path="/edukasi/pentingnya-vaksinasi" element={<PentingnyaVaksinasi />} />
+        <Route path="/edukasi/tips-perawatan" element={<TipsPerawatan />} />
+        <Route path="/edukasi/mengenal-sterilisasi" element={<MengenalSterilisasi />} />
       </Route>
+
 
       {/* Redirect root path ke /user */}
       <Route path="/" element={<Navigate to="/user/home" replace />} />
